@@ -31,7 +31,10 @@ export const fetchIngredientsFailed = () => {
 export const initIngredients = () => {
     return dispatch => {
         axios.get('https://my-burger-shop-app-default-rtdb.europe-west1.firebasedatabase.app/ingredients.json')
-            .then(res => dispatch(setIngredients(res.data)))
+            .then(res => {
+                const ingredients = res.data;
+                return dispatch(setIngredients(ingredients))
+            })
             .catch(error => dispatch(fetchIngredientsFailed()));
     };
 }
