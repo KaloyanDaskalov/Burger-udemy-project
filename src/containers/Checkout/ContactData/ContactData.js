@@ -130,6 +130,9 @@ class ContactData extends Component {
 			isValid = value.trim() !== '' && isValid;
 		}
 
+		const pattern = /^[\w!#$%&'*+\-=?^_`{|}~]+(\.[\w!#$%&'*+\-=?^_`{|}~]+)*@((([-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))/;
+		isValid = pattern.test(value) && isValid;
+
 		if (rules.minLength) {
 			isValid = value.length >= rules.minLength && isValid;
 		}
