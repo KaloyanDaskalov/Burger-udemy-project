@@ -73,7 +73,8 @@ class ContactData extends Component {
 				},
 				value: '',
 				validation: {
-					required: true
+					required: true,
+					isEmail: true
 				},
 				valid: false,
 				touched: false
@@ -111,7 +112,7 @@ class ContactData extends Component {
 			orderData
 		};
 
-		this.props.onOrderBurger(order);
+		this.props.onOrderBurger(order, this.props.token);
 
 		// axios.post('orders.json', order)
 		// 	.then((res) => {
@@ -130,8 +131,11 @@ class ContactData extends Component {
 			isValid = value.trim() !== '' && isValid;
 		}
 
-		const pattern = /^[\w!#$%&'*+\-=?^_`{|}~]+(\.[\w!#$%&'*+\-=?^_`{|}~]+)*@((([-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))/;
-		isValid = pattern.test(value) && isValid;
+		if (rules.isEmail) {
+			const pattern = /^[\w!#$%&'*+\-=?^_`{|}~]+(\.[\w!#$%&'*+\-=?^_`{|}~]+)*@((([-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))/;
+			// console.log(pattern.test(value));
+			isValid = pattern.test(value) && isValid;
+		}
 
 		if (rules.minLength) {
 			isValid = value.length >= rules.minLength && isValid;
@@ -196,13 +200,14 @@ const mapStateToProps = state => {
 	return {
 		ingr: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
-		loading: state.order.loading
+		loading: state.order.loading,
+		token: state.auth.token
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onOrderBurger: (orderData) => (dispatch(actions.purchaseBurger(orderData)))
+		onOrderBurger: (orderData, token) => (dispatch(actions.purchaseBurger(orderData, token)))
 	};
 }
 
