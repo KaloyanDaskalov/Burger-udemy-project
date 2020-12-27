@@ -11,7 +11,7 @@ const burger = (props) => {
 				});
 		})
 		.flat();
-	// console.log(transformedIngredients);
+
 	return (
 		<div className={classes.Burger}>
 			<BurgerIngredient type="bread-top" />

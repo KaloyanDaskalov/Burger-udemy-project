@@ -7,6 +7,7 @@ import Input from '../../../components/UI/Input/Input'
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import checkValidity from '../../../shared/checkValidity';
 
 class ContactData extends Component {
 	state = {
@@ -114,52 +115,18 @@ class ContactData extends Component {
 		};
 
 		this.props.onOrderBurger(order, this.props.token);
-
-		// axios.post('orders.json', order)
-		// 	.then((res) => {
-		// 		this.setState({ loading: false });
-		// 		this.props.history.push('/');
-		// 	})
-		// 	.catch((error) =>
-		// 		this.setState({ loading: false })
-		// 	);
-	}
-
-	checkValidity(value, rules) {
-		let isValid = true;
-
-		if (rules.required) {
-			isValid = value.trim() !== '' && isValid;
-		}
-
-		if (rules.isEmail) {
-			const pattern = /^[\w!#$%&'*+\-=?^_`{|}~]+(\.[\w!#$%&'*+\-=?^_`{|}~]+)*@((([-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))/;
-			// console.log(pattern.test(value));
-			isValid = pattern.test(value) && isValid;
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid;
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid;
-		}
-
-		return isValid;
 	}
 
 	inputChangeHandler = (event, id) => {
 		this.setState((state) => {
 			state.orderForm[id].value = event.target.value;
 			state.orderForm[id].touched = true;
-			state.orderForm[id].valid = this.checkValidity(event.target.value, state.orderForm[id].validation);
+			state.orderForm[id].valid = checkValidity(event.target.value, state.orderForm[id].validation);
 			let check = true;
 			for (const isValid in state.orderForm) {
 				check = state.orderForm[isValid].valid && check;
 			}
 			state.formIsValid = check;
-			// console.log(state.orderForm[id].valid);
 			return state;
 		});
 	}
