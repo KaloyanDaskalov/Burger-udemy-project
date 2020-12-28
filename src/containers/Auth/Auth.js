@@ -86,10 +86,6 @@ class Auth extends Component {
             touched={formElement.config.touched}
             changed={(event) => this.inputChangeHandler(event, formElement.id)} />));
 
-        // if (this.props.loading) {
-        //     form = <Spinner />;
-        // }
-
         return (
             <div className={classes.Auth} >
                 {this.props.isAuthenticated ? <Redirect to={this.props.authRedirectPath} /> : null}
